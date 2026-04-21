@@ -15,6 +15,10 @@ from .models import Conversion, PRODUCT_CHOICES
 VALID_PRODUCTS = {slug for slug, _ in PRODUCT_CHOICES}
 
 
+def home(request):
+    return render(request, "maintenance.html", {})
+
+
 def landing(request, product):
     if product not in VALID_PRODUCTS:
         return JsonResponse({"error": "not found"}, status=404)
