@@ -19,6 +19,7 @@ class Conversion(models.Model):
     button_label = models.CharField(max_length=100, blank=True)
 
     class Meta:
+        db_table = "ads_set_v1_pages_conversion"
         indexes = [
             models.Index(fields=["product", "timestamp"]),
         ]
