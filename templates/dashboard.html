@@ -41,6 +41,40 @@
   .hotgoss .value { color: #ff5f52; }
   .samesky .value { color: #a5b4fc; }
   .taskmatic .value { color: #e69c3c; }
+
+  .reset-section {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: rgba(255,60,60,0.06);
+    border: 1px solid rgba(255,60,60,0.15);
+    border-radius: 12px;
+  }
+  .reset-section h2 { margin-top: 0; color: #ff5f52; }
+  .reset-form { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+  .reset-form input {
+    padding: 0.5rem 0.75rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    color: #e4e6eb;
+    font-size: 0.875rem;
+    flex: 1;
+    min-width: 200px;
+  }
+  .reset-form button {
+    padding: 0.5rem 1.25rem;
+    background: #ff5f52;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  .reset-form button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .reset-msg { margin-top: 0.75rem; font-size: 0.875rem; }
+  .reset-msg.ok { color: #4ade80; }
+  .reset-msg.err { color: #ff5f52; }
 </style>
 {% endblock %}
 
@@ -81,4 +115,46 @@
   <tr><td class="product">{{ d.product }}</td><td>{{ d.day|date:"M j" }}</td><td class="count">{{ d.count }}</td></tr>
   {% endfor %}
 </table>
+
+<div class="reset-section">
+  <h2>Reset All Conversions</h2>
+  <p style="margin-bottom:1rem;color:#6b7080;font-size:0.875rem;">Enter the dashboard key to confirm. This deletes all conversion data permanently.</p>
+  <div class="reset-form">
+    <input type="password" id="reset-key" placeholder="Dashboard key">
+    <button id="reset-btn" onclick="resetConversions()">Reset All Data</button>
+  </div>
+  <div class="reset-msg" id="reset-msg"></div>
+</div>
+
+<script>
+async function resetConversions() {
+  const key = document.getElementById('reset-key').value.trim();
+  const msg = document.getElementById('reset-msg');
+  const btn = document.getElementById('reset-btn');
+  if (!key) { msg.textContent = 'Enter the dashboard key.'; msg.className = 'reset-msg err'; return; }
+  if (!confirm('This will permanently delete ALL conversion data. Are you sure?')) return;
+  btn.disabled = true;
+  try {
+    const res = await fetch('{% url "reset_conversions" %}', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({key})
+    });
+    const data = await res.json();
+    if (res.ok) {
+      msg.textContent = 'Deleted ' + data.deleted + ' records. Reloading\u2026';
+      msg.className = 'reset-msg ok';
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      msg.textContent = data.error || 'Reset failed.';
+      msg.className = 'reset-msg err';
+      btn.disabled = false;
+    }
+  } catch (e) {
+    msg.textContent = 'Network error.';
+    msg.className = 'reset-msg err';
+    btn.disabled = false;
+  }
+}
+</script>
 {% endblock %}

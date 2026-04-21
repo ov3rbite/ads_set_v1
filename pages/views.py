@@ -91,4 +91,20 @@ def dashboard(request):
         "by_button": by_button,
         "by_day": by_day,
         "unique_visitors": unique_visitors,
+        "dash_key": key,
     })
+
+
+@require_POST
+@csrf_exempt
+def reset_conversions(request):
+    try:
+        body = json.loads(request.body)
+    except (json.JSONDecodeError, ValueError):
+        return JsonResponse({"error": "invalid body"}, status=400)
+
+    if body.get("key") != settings.DASHBOARD_KEY:
+        return JsonResponse({"error": "forbidden"}, status=403)
+
+    count, _ = Conversion.objects.all().delete()
+    return JsonResponse({"ok": True, "deleted": count})
