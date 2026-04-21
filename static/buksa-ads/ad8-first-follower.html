@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Buksa — Your First Follower</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; background: #000; font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  body { display: flex; align-items: center; justify-content: center; }
+
+  .frame {
+    position: relative;
+    height: 100vh;
+    aspect-ratio: 9 / 16;
+    max-width: 100vw;
+    overflow: hidden;
+    background: #f4ecd8;
+    color: #0a0a0f;
+    container-type: inline-size;
+    container-name: frame;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .masthead {
+    flex-shrink: 0;
+    padding: 4cqw 5cqw 2.5cqw;
+    border-bottom: 2px solid #0a0a0f;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: clamp(9px, 2.2cqw, 11px);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .masthead-left {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: clamp(14px, 3.6cqw, 18px);
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.01em;
+    text-transform: none;
+  }
+  .masthead-right { color: #e85d24; }
+
+  .main {
+    flex: 1;
+    min-height: 0;
+    padding: 6cqw 5cqw;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .kicker-top {
+    font-size: clamp(10px, 2.4cqw, 12px);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #e85d24;
+    text-align: center;
+    margin-bottom: 4cqw;
+    transition: opacity 0.6s ease;
+  }
+
+  /* Before state — counter at 0 */
+  .zero-state {
+    text-align: center;
+    transition: opacity 0.8s ease;
+  }
+  .zero-label {
+    font-size: clamp(10px, 2.4cqw, 12px);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #4a4540;
+    margin-bottom: 3cqw;
+  }
+  .zero-num {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: clamp(120px, 40cqw, 260px);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+    color: #0a0a0f;
+    margin-bottom: 3cqw;
+  }
+  .zero-sub {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-style: italic;
+    font-size: clamp(15px, 3.8cqw, 19px);
+    color: #4a4540;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .zero-state.hide { opacity: 0; }
+
+  /* Notification card that slides in */
+  .notif {
+    position: absolute;
+    left: 5cqw; right: 5cqw;
+    top: 50%;
+    transform: translateY(-50%) translateY(30px);
+    background: #0a0a0f;
+    color: #f4ecd8;
+    padding: 5cqw;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.7s cubic-bezier(.2,.7,.2,1);
+    box-shadow: 0 30px 80px rgba(10,10,15,0.2);
+  }
+  .notif.show {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  .notif-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 3cqw;
+    padding-bottom: 3cqw;
+    border-bottom: 1px solid rgba(244,236,216,0.2);
+  }
+  .notif-app {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(15px, 3.8cqw, 19px);
+    letter-spacing: -0.01em;
+  }
+  .notif-time {
+    font-size: clamp(9px, 2.2cqw, 11px);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e85d24;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .notif-inner {
+    display: flex; gap: 4cqw; align-items: center;
+  }
+  .notif-avatar {
+    width: 14cqw; height: 14cqw; min-width: 50px; min-height: 50px;
+    background: #e85d24;
+    color: #0a0a0f;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: clamp(20px, 5.5cqw, 28px);
+    font-weight: 900;
+    font-style: italic;
+    flex-shrink: 0;
+  }
+  .notif-info { flex: 1; }
+  .notif-action {
+    font-size: clamp(11px, 2.8cqw, 14px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #e85d24;
+    margin-bottom: 0.8cqw;
+  }
+  .notif-text {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: clamp(14px, 3.6cqw, 18px);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .notif-text .handle { color: #f4ecd8; font-weight: 700; }
+
+  /* After state — counter at 1 */
+  .one-state {
+    text-align: center;
+    position: absolute;
+    inset: 0;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6cqw 5cqw;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .one-state.show { opacity: 1; }
+
+  .one-label {
+    font-size: clamp(10px, 2.4cqw, 12px);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #e85d24;
+    margin-bottom: 3cqw;
+  }
+  .one-num {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: clamp(120px, 40cqw, 260px);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+    color: #e85d24;
+    margin-bottom: 3cqw;
+  }
+  .one-quote {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-style: italic;
+    font-size: clamp(18px, 4.8cqw, 24px);
+    color: #0a0a0f;
+    font-weight: 400;
+    line-height: 1.25;
+    max-width: 88%;
+    margin: 0 auto;
+  }
+  .one-quote em { color: #e85d24; font-style: italic; }
+
+  /* Footer */
+  .footer {
+    flex-shrink: 0;
+    padding: 3cqw 5cqw 3.5cqw;
+    border-top: 2px solid #0a0a0f;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .footer-stat { display: flex; flex-direction: column; }
+  .footer-label {
+    font-size: clamp(8px, 1.9cqw, 10px);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #4a4540;
+    margin-bottom: 0.5cqw;
+  }
+  .footer-val {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: clamp(18px, 5cqw, 26px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .footer-stat.accent .footer-val { color: #e85d24; }
+
+  .end-overlay {
+    position: absolute; inset: 0;
+    background: #0a0a0f;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 6cqw;
+    opacity: 0; pointer-events: none;
+    transition: opacity 1s ease;
+    z-index: 20;
+  }
+  .end-overlay.show { opacity: 1; }
+  .end-kicker {
+    font-size: clamp(10px, 2.4cqw, 12px);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #e85d24;
+    font-weight: 700;
+    margin-bottom: 4cqw;
+  }
+  .end-preline {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: clamp(24px, 7.5cqw, 42px);
+    color: #f4ecd8;
+    margin-bottom: 6cqw;
+    text-align: center;
+    line-height: 1.05;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    font-style: italic;
+  }
+  .end-preline .hl { color: #e85d24; font-style: italic; }
+  .logo-frame {
+    padding: 3cqw 6cqw;
+    border-top: 2px solid #f4ecd8;
+    border-bottom: 2px solid #f4ecd8;
+    display: inline-block;
+  }
+  .logo-text {
+    font-family: 'Bodoni 72', Didot, Georgia, serif;
+    font-size: clamp(48px, 16cqw, 90px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: #f4ecd8;
+    line-height: 1;
+  }
+  .tagline {
+    font-size: clamp(10px, 2.5cqw, 13px);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-top: 4cqw;
+    color: #e85d24;
+    font-weight: 700;
+    text-align: center;
+  }
+
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="masthead">
+    <span class="masthead-left">Buksa</span>
+    <span class="masthead-right">№ 08 · The First One</span>
+  </div>
+
+  <div class="main">
+    <div class="zero-state" id="zeroState">
+      <div class="zero-label">Followers</div>
+      <div class="zero-num">0</div>
+      <div class="zero-sub">You posted chapter one yesterday.</div>
+    </div>
+
+    <div class="notif" id="notif">
+      <div class="notif-head">
+        <span class="notif-app">Buksa</span>
+        <span class="notif-time" id="notifTime">NOW</span>
+      </div>
+      <div class="notif-inner">
+        <div class="notif-avatar">M</div>
+        <div class="notif-info">
+          <div class="notif-action">New follower</div>
+          <div class="notif-text"><span class="handle">@maya_reads</span> started following your story.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="one-state" id="oneState">
+      <div class="one-label">Followers</div>
+      <div class="one-num">1</div>
+      <div class="one-quote">Something you wrote<br>made someone want <em>more.</em></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-stat">
+      <div class="footer-label">Chapter</div>
+      <div class="footer-val">01</div>
+    </div>
+    <div class="footer-stat accent" style="text-align: center;">
+      <div class="footer-label">Followers</div>
+      <div class="footer-val" id="followerVal">0</div>
+    </div>
+    <div class="footer-stat" style="text-align: right;">
+      <div class="footer-label">Published</div>
+      <div class="footer-val">Yesterday</div>
+    </div>
+  </div>
+
+  <div class="end-overlay" id="end">
+    <div class="end-kicker">The First One</div>
+    <div class="end-preline">It starts with <span class="hl">one reader.</span></div>
+    <div class="logo-frame"><div class="logo-text">BUKSA</div></div>
+    <div class="tagline">The book in you, unlocked</div>
+  </div>
+</div>
+
+
+<script>
+let timers = [];
+function wait(ms) { return new Promise(r => timers.push(setTimeout(r, ms))); }
+function setText(id, v) { document.getElementById(id).textContent = v; }
+
+async function play() {
+  timers.forEach(clearTimeout);
+  timers = [];
+  document.getElementById('zeroState').classList.remove('hide');
+  document.getElementById('notif').classList.remove('show');
+  document.getElementById('oneState').classList.remove('show');
+  document.getElementById('end').classList.remove('show');
+  setText('followerVal', '0');
+
+  await wait(1500);
+
+  // Notification lands
+  document.getElementById('notif').classList.add('show');
+  document.getElementById('zeroState').classList.add('hide');
+  await wait(3200);
+
+  // Notif slides away, counter becomes 1
+  document.getElementById('notif').classList.remove('show');
+  await wait(400);
+  document.getElementById('oneState').classList.add('show');
+  setText('followerVal', '1');
+  await wait(3200);
+
+  document.getElementById('end').classList.add('show');
+}
+
+function toggleFull() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'r' || e.key === 'R') play();
+  if (e.key === 'f' || e.key === 'F') toggleFull();
+  if (e.key === 'Escape') location.href = 'index.html';
+  if (e.key === 'h' || e.key === 'H') document.body.classList.toggle('hide-ui');
+});
+
+play();
+</script>
+</body>
+</html>

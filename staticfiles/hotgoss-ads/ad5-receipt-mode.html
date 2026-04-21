@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hotgoss — read this with me</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; background: #000; font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  body { display: flex; align-items: center; justify-content: center; }
+
+  .frame {
+    position: relative;
+    height: 100vh;
+    aspect-ratio: 9 / 16;
+    max-width: 100vw;
+    overflow: hidden;
+    background: #ffd4e1;
+    color: #14110e;
+    container-type: inline-size;
+    container-name: frame;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .status {
+    flex-shrink: 0;
+    padding: 3.5cqw 6cqw 2cqw;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: clamp(12px, 3cqw, 15px);
+    font-weight: 700;
+  }
+
+  .brand-row {
+    flex-shrink: 0;
+    padding: 1cqw 5cqw 2cqw;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .brand {
+    font-size: clamp(17px, 4.5cqw, 22px);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+  }
+  .brand .dot {
+    display: inline-block;
+    width: 0.2em; height: 0.2em;
+    background: #ff5f52;
+    border-radius: 50%;
+    vertical-align: 0.08em;
+    margin-left: -0.05em;
+  }
+  .mode-chip {
+    padding: 1.2cqw 3cqw;
+    background: #14110e;
+    color: #fdfaf3;
+    border-radius: 999px;
+    font-size: clamp(10px, 2.4cqw, 12px);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+  }
+
+  /* Hero */
+  .hero {
+    flex-shrink: 0;
+    padding: 3cqw 5cqw 3cqw;
+  }
+  .hero-big {
+    font-size: clamp(28px, 8.5cqw, 44px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+  }
+  .hero-big .hl {
+    background: #14110e; color: #ffd4e1;
+    padding: 0 0.2em; border-radius: 0.12em;
+    display: inline-block;
+  }
+
+  /* Body */
+  .body {
+    flex: 1;
+    min-height: 0;
+    padding: 1cqw 5cqw 3cqw;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    gap: 3cqw;
+  }
+
+  /* Screenshot card */
+  .paste-card {
+    background: #fff;
+    border: 1.5px solid #14110e;
+    border-radius: 4cqw;
+    padding: 4cqw;
+    box-shadow: 5px 5px 0 #14110e;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s, transform 0.5s;
+    position: relative;
+  }
+  .paste-card.show { opacity: 1; transform: translateY(0); }
+  .paste-label {
+    position: absolute;
+    top: -2cqw; right: 4cqw;
+    padding: 1cqw 3cqw;
+    background: #ff5f52;
+    color: #fff;
+    border: 1.5px solid #14110e;
+    border-radius: 999px;
+    font-size: clamp(10px, 2.4cqw, 12px);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    transform: rotate(3deg);
+  }
+  .paste-meta {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 2cqw;
+    margin-bottom: 2.5cqw;
+    border-bottom: 1px dashed rgba(20,17,14,0.18);
+    font-size: clamp(10px, 2.4cqw, 12px);
+    font-weight: 700;
+    color: rgba(20,17,14,0.55);
+    letter-spacing: 0.04em;
+  }
+  .paste-meta .name {
+    font-size: clamp(13px, 3.3cqw, 16px);
+    font-weight: 800;
+    color: #14110e;
+    letter-spacing: -0.01em;
+  }
+  .text-line {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3cqw;
+    align-items: baseline;
+    padding: 1.5cqw 0;
+  }
+  .line-num {
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: clamp(10px, 2.4cqw, 12px);
+    color: rgba(20,17,14,0.45);
+    font-weight: 700;
+  }
+  .line-body {
+    font-size: clamp(13px, 3.4cqw, 16px);
+    line-height: 1.4;
+    color: #14110e;
+    font-weight: 500;
+  }
+
+  /* Annotations */
+  .annotations {
+    display: flex; flex-direction: column; gap: 2cqw;
+  }
+  .annotation {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3cqw;
+    align-items: center;
+    padding: 3cqw 3.5cqw;
+    background: #14110e;
+    color: #fdfaf3;
+    border-radius: 4cqw;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.35s, transform 0.35s;
+  }
+  .annotation.show { opacity: 1; transform: translateY(0); }
+  .ann-num {
+    width: 7cqw; height: 7cqw; min-width: 26px; min-height: 26px;
+    border-radius: 50%;
+    background: #ff5f52;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    font-size: clamp(12px, 3cqw, 14px);
+    flex-shrink: 0;
+  }
+  .ann-note {
+    font-size: clamp(12px, 3.2cqw, 15px);
+    line-height: 1.35;
+    font-weight: 600;
+  }
+  .ann-note em {
+    font-style: italic;
+    font-weight: 800;
+    background: #ff5f52;
+    padding: 0 0.25em;
+    border-radius: 0.15em;
+  }
+
+  /* Verdict */
+  .verdict {
+    margin-top: auto;
+    padding: 3cqw 4cqw;
+    background: #c9f542;
+    border: 1.5px solid #14110e;
+    border-radius: 4cqw;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.6s;
+    box-shadow: 4px 4px 0 #14110e;
+  }
+  .verdict.show { opacity: 1; }
+  .verdict-label {
+    font-size: clamp(9px, 2.2cqw, 11px);
+    font-weight: 800;
+    color: rgba(20,17,14,0.6);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1.5cqw;
+  }
+  .verdict-text {
+    font-size: clamp(18px, 5.5cqw, 26px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #14110e;
+  }
+
+  /* End */
+  .end-overlay {
+    position: absolute; inset: 0;
+    background: #14110e;
+    color: #fdfaf3;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 6cqw;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.9s ease;
+    z-index: 30;
+    text-align: center;
+  }
+  .end-overlay.show { opacity: 1; }
+  .end-chip {
+    display: inline-block;
+    padding: 1.5cqw 4cqw;
+    background: #ffb3d1;
+    color: #14110e;
+    border: 1.5px solid #fdfaf3;
+    border-radius: 999px;
+    font-size: clamp(10px, 2.5cqw, 13px);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    margin-bottom: 5cqw;
+    transform: rotate(-2deg);
+  }
+  .end-preline {
+    font-size: clamp(28px, 9cqw, 52px);
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    margin-bottom: 6cqw;
+  }
+  .end-preline .hl {
+    background: #ffb3d1; color: #14110e;
+    padding: 0 0.2em; border-radius: 0.12em;
+    display: inline-block;
+  }
+  .logo-word {
+    font-size: clamp(48px, 16cqw, 90px);
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 0.9;
+    margin-bottom: 3cqw;
+  }
+  .logo-word .dot {
+    display: inline-block;
+    width: 0.16em; height: 0.16em;
+    background: #ff5f52;
+    border-radius: 50%;
+    vertical-align: 0.08em;
+    margin-left: -0.04em;
+  }
+  .tagline {
+    font-size: clamp(13px, 3.4cqw, 17px);
+    color: rgba(253,250,243,0.7);
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="status">
+    <span>2:47</span>
+    <span>●●●●●</span>
+  </div>
+
+  <div class="brand-row">
+    <div class="brand">hotgoss<span class="dot"></span></div>
+    <div class="mode-chip">● receipt mode</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-big">paste it.<br>let&rsquo;s <span class="hl">read it.</span></div>
+  </div>
+
+  <div class="body">
+    <div class="paste-card" id="paste">
+      <span class="paste-label">screenshot</span>
+      <div class="paste-meta">
+        <span class="name">marcus</span>
+        <span>yesterday 11:47pm</span>
+      </div>
+      <div class="text-line">
+        <span class="line-num">01.</span>
+        <div class="line-body">&ldquo;hey stranger&rdquo;</div>
+      </div>
+      <div class="text-line">
+        <span class="line-num">02.</span>
+        <div class="line-body">&ldquo;been thinking about u&rdquo;</div>
+      </div>
+      <div class="text-line">
+        <span class="line-num">03.</span>
+        <div class="line-body">&ldquo;we should link up soon fr&rdquo;</div>
+      </div>
+    </div>
+
+    <div class="annotations">
+      <div class="annotation" id="ann1">
+        <div class="ann-num">1</div>
+        <div class="ann-note">&lsquo;hey stranger&rsquo; is a <em>war crime.</em></div>
+      </div>
+      <div class="annotation" id="ann2">
+        <div class="ann-num">2</div>
+        <div class="ann-note">thinking, <em>not writing.</em> big difference.</div>
+      </div>
+      <div class="annotation" id="ann3">
+        <div class="ann-num">3</div>
+        <div class="ann-note">&lsquo;soon fr&rsquo; means <em>never, actually.</em></div>
+      </div>
+    </div>
+
+    <div class="verdict" id="verdict">
+      <div class="verdict-label">● verdict</div>
+      <div class="verdict-text">do not reply. screenshot for the girls.</div>
+    </div>
+  </div>
+
+  <div class="end-overlay" id="end">
+    <span class="end-chip">● receipt mode</span>
+    <div class="end-preline">paste the cringe.<br>we <span class="hl">handle the rest.</span></div>
+    <div class="logo-word">hotgoss<span class="dot"></span></div>
+    <div class="tagline">close-read, with love.</div>
+  </div>
+</div>
+
+
+<script>
+let timers = [];
+function wait(ms) { return new Promise(r => timers.push(setTimeout(r, ms))); }
+
+async function play() {
+  timers.forEach(clearTimeout);
+  timers = [];
+  document.getElementById('paste').classList.remove('show');
+  ['ann1','ann2','ann3','verdict','end'].forEach(id => document.getElementById(id).classList.remove('show'));
+
+  await wait(700);
+  document.getElementById('paste').classList.add('show');
+  await wait(1600);
+
+  for (const id of ['ann1','ann2','ann3']) {
+    document.getElementById(id).classList.add('show');
+    await wait(1400);
+  }
+
+  await wait(500);
+  document.getElementById('verdict').classList.add('show');
+  await wait(2800);
+  document.getElementById('end').classList.add('show');
+}
+
+
+
+play();
+</script>
+</body>
+</html>

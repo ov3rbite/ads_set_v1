@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SameSky — Two Texts</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; background: #000; font-family: -apple-system, 'Helvetica Neue', sans-serif; }
+  body { display: flex; align-items: center; justify-content: center; }
+
+  .frame {
+    position: relative;
+    height: 100vh;
+    aspect-ratio: 9 / 16;
+    max-width: 100vw;
+    overflow: hidden;
+    background: #000;
+    container-type: inline-size;
+    container-name: frame;
+  }
+
+  /* Status bar */
+  .status {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 3.5cqw 6cqw 2cqw;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: clamp(12px, 3cqw, 15px); font-weight: 600; color: #fff;
+    z-index: 5;
+  }
+
+  .context-banner {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 14cqw 6cqw 4cqw;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.6s;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .context-banner.show { opacity: 1; }
+  .context-tag {
+    font-size: clamp(10px, 2.4cqw, 12px);
+    color: #64748b;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 2cqw;
+  }
+  .context-line {
+    font-size: clamp(18px, 5.2cqw, 28px);
+    font-weight: 300;
+    font-style: italic;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .chat-view {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    background: #000;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .chat-view.show { opacity: 1; }
+
+  .chat-header {
+    padding: 16cqw 6cqw 4cqw;
+    display: flex; flex-direction: column; align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.015);
+  }
+  .avatar {
+    width: 15cqw; height: 15cqw; min-width: 56px; min-height: 56px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(20px, 5.5cqw, 28px); font-weight: 600; color: #fff;
+    margin-bottom: 2cqw;
+  }
+  .avatar.friend { background: linear-gradient(135deg, #fca5a5 0%, #f472b6 100%); }
+  .avatar.match { background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 100%); }
+
+  .chat-name {
+    font-size: clamp(15px, 4cqw, 20px);
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .chat-sub {
+    font-size: clamp(11px, 2.8cqw, 13px);
+    color: #64748b;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .chat-sub.match-sub { color: #a5b4fc; }
+
+  .messages {
+    flex: 1;
+    padding: 5cqw 4cqw;
+    display: flex; flex-direction: column; gap: 2.5cqw;
+    overflow: hidden;
+  }
+  .bubble {
+    max-width: 82%;
+    padding: 3cqw 4cqw;
+    border-radius: 5cqw;
+    font-size: clamp(14px, 3.7cqw, 18px);
+    line-height: 1.42;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.45s, transform 0.45s;
+  }
+  .bubble.show { opacity: 1; transform: translateY(0); }
+  .bubble.them {
+    background: rgba(255,255,255,0.08); color: #e2e8f0;
+    align-self: flex-start; border-bottom-left-radius: 1.5cqw;
+  }
+  .bubble.them.match {
+    background: linear-gradient(135deg, rgba(165,180,252,0.18), rgba(129,140,248,0.18));
+    border: 1px solid rgba(165,180,252,0.3);
+  }
+
+  .typing { display: flex; gap: 5px; padding: 3.5cqw 4.5cqw; }
+  .typing span { width: 7px; height: 7px; border-radius: 50%; background: #64748b;
+    animation: bounce 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  .verdict {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 6cqw;
+    opacity: 0;
+    transition: opacity 1s;
+    background: #000;
+    z-index: 10;
+  }
+  .verdict.show { opacity: 1; }
+  .verdict-line-1 {
+    font-size: clamp(22px, 6.5cqw, 38px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 2cqw;
+  }
+  .verdict-line-2 {
+    font-size: clamp(26px, 8cqw, 48px);
+    font-weight: 500;
+    color: #fff;
+    text-align: center;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .verdict-line-2 .hl {
+    background: linear-gradient(120deg, #ffd89b 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .end-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, #1a1a3a 0%, #050610 85%);
+    transition: opacity 1.2s ease;
+    z-index: 20;
+    padding: 0 30px;
+  }
+  .end-overlay.show { opacity: 1; }
+  .logo-text {
+    font-size: clamp(48px, 18cqw, 100px);
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    background: linear-gradient(120deg, #ffd89b 0%, #a5b4fc 50%, #c7d2fe 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .tagline {
+    font-size: clamp(11px, 3cqw, 16px);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-top: 16px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 300;
+    text-align: center;
+  }
+
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="status"><span>9:41</span><span>●●●●●</span></div>
+
+  <!-- Context banner -->
+  <div class="context-banner" id="context">
+    <div class="context-tag">Situation</div>
+    <div class="context-line">&ldquo;I just lost my dad.&rdquo;</div>
+  </div>
+
+  <!-- Chat 1: Friend -->
+  <div class="chat-view" id="chat1">
+    <div class="chat-header">
+      <div class="avatar friend">S</div>
+      <div class="chat-name">Sarah · best friend</div>
+      <div class="chat-sub">Loves you</div>
+    </div>
+    <div class="messages" id="messages1"></div>
+  </div>
+
+  <!-- Chat 2: Match -->
+  <div class="chat-view" id="chat2">
+    <div class="chat-header">
+      <div class="avatar match">M</div>
+      <div class="chat-name">Maya · SameSky match</div>
+      <div class="chat-sub match-sub">Lost her mom 8 months ago</div>
+    </div>
+    <div class="messages" id="messages2"></div>
+  </div>
+
+  <!-- Verdict -->
+  <div class="verdict" id="verdict">
+    <div class="verdict-line-1">Your friends love you.</div>
+    <div class="verdict-line-2">Someone else <span class="hl">knows</span> you.</div>
+  </div>
+
+  <!-- End -->
+  <div class="end-overlay" id="end">
+    <div class="logo-text">SameSky</div>
+    <div class="tagline">Find the one who gets it</div>
+  </div>
+</div>
+
+
+<script>
+let timers = [];
+function wait(ms) { return new Promise(r => timers.push(setTimeout(r, ms))); }
+
+const chat1Messages = [
+  { text: 'omg hun I\u2019m so so sorry 💕' },
+  { text: 'let me know if you need ANYTHING ❤️❤️' },
+  { text: 'thinking of you 🙏' }
+];
+const chat2Messages = [
+  { text: 'Hey. I saw your match.' },
+  { text: 'I lost my mom 8 months ago. Completely unexpected.' },
+  { text: 'The first few weeks I kept forgetting and then remembering. Every single time felt brand new.' },
+  { text: 'You\u2019re not going crazy. That\u2019s just what this is.' },
+  { text: 'Here whenever. No pressure ever.' }
+];
+
+async function playBubbles(containerId, msgs, variant) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  for (const m of msgs) {
+    const typing = document.createElement('div');
+    typing.className = 'bubble them typing' + (variant === 'match' ? ' match' : '');
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    el.appendChild(typing);
+    requestAnimationFrame(() => typing.classList.add('show'));
+    await wait(variant === 'match' ? 900 : 700);
+    typing.remove();
+
+    const b = document.createElement('div');
+    b.className = 'bubble them' + (variant === 'match' ? ' match' : '');
+    b.textContent = m.text;
+    el.appendChild(b);
+    requestAnimationFrame(() => b.classList.add('show'));
+    // Longer dwell on match messages so the emotional ones land
+    await wait(variant === 'match' ? 1500 : 900);
+  }
+}
+
+async function play() {
+  timers.forEach(clearTimeout);
+  timers = [];
+
+  ['context','chat1','chat2','verdict','end'].forEach(id => document.getElementById(id).classList.remove('show'));
+  document.getElementById('messages1').innerHTML = '';
+  document.getElementById('messages2').innerHTML = '';
+
+  await wait(400);
+  document.getElementById('context').classList.add('show');
+  await wait(2200);
+  document.getElementById('context').classList.remove('show');
+  await wait(500);
+
+  document.getElementById('chat1').classList.add('show');
+  await wait(600);
+  await playBubbles('messages1', chat1Messages, 'friend');
+  await wait(1000);
+  document.getElementById('chat1').classList.remove('show');
+  await wait(600);
+
+  document.getElementById('chat2').classList.add('show');
+  await wait(500);
+  await playBubbles('messages2', chat2Messages, 'match');
+  await wait(1400);
+  document.getElementById('chat2').classList.remove('show');
+  await wait(500);
+
+  document.getElementById('verdict').classList.add('show');
+  await wait(3200);
+  document.getElementById('verdict').classList.remove('show');
+  await wait(400);
+
+  document.getElementById('end').classList.add('show');
+}
+
+
+window.addEventListener('message', e => { if (e.data === 'replay') play(); });
+play();
+</script>
+</body>
+</html>
