@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Conversion Dashboard{% endblock %}
+
+{% block css %}
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f1117;
+    color: #e4e6eb;
+    padding: 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: 2rem; }
+  h2 { font-size: 1.125rem; font-weight: 700; margin: 2rem 0 0.75rem; color: #a0a4b0; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  th, td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  th { color: #6b7080; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  td { font-variant-numeric: tabular-nums; }
+  .count { font-weight: 700; color: #e69c3c; }
+  .product { text-transform: capitalize; }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .card .label { font-size: 0.8rem; color: #6b7080; text-transform: uppercase; letter-spacing: 0.05em; }
+  .card .value { font-size: 2rem; font-weight: 800; margin-top: 0.25rem; }
+  .buksa .value { color: #e85d24; }
+  .hotgoss .value { color: #ff5f52; }
+  .samesky .value { color: #a5b4fc; }
+  .taskmatic .value { color: #e69c3c; }
+</style>
+{% endblock %}
+
+{% block body %}
+<h1>Conversion Dashboard</h1>
+
+<div class="card-grid">
+  {% for t in totals %}
+  <div class="card {{ t.product }}">
+    <div class="label">{{ t.product }}</div>
+    <div class="value">{{ t.count }}</div>
+  </div>
+  {% empty %}
+  <div class="card"><div class="label">No conversions yet</div><div class="value">0</div></div>
+  {% endfor %}
+</div>
+
+<h2>Unique Visitors (by IP)</h2>
+<table>
+  <tr><th>Product</th><th>Unique</th></tr>
+  {% for u in unique_visitors %}
+  <tr><td class="product">{{ u.product }}</td><td class="count">{{ u.unique }}</td></tr>
+  {% endfor %}
+</table>
+
+<h2>By Button</h2>
+<table>
+  <tr><th>Product</th><th>Button</th><th>Count</th></tr>
+  {% for b in by_button %}
+  <tr><td class="product">{{ b.product }}</td><td>{{ b.button_label|default:"(none)" }}</td><td class="count">{{ b.count }}</td></tr>
+  {% endfor %}
+</table>
+
+<h2>By Day</h2>
+<table>
+  <tr><th>Product</th><th>Day</th><th>Count</th></tr>
+  {% for d in by_day %}
+  <tr><td class="product">{{ d.product }}</td><td>{{ d.day|date:"M j" }}</td><td class="count">{{ d.count }}</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

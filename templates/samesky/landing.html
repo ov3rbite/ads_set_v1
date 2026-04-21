@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}SameSky — You're not the only one{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'samesky/style.css' %}">{% endblock %}
+
+{% block body %}
+<div class="stars" id="stars"></div>
+
+<nav class="nav">
+  <div class="nav-brand">SameSky</div>
+  <button class="nav-cta" onclick="trackConversion('samesky','nav')">Join Free</button>
+</nav>
+
+<!-- Hero -->
+<section class="section hero">
+  <h1>You're not<br><span>the only one</span></h1>
+  <p class="tagline">Your friends love you. But they don't quite get it. SameSky connects you with people going through the exact same thing.</p>
+  <button class="btn" onclick="trackConversion('samesky','hero')">Join SameSky — It's Free</button>
+
+  <div class="tag-cloud">
+    <span class="tag">just got promoted</span>
+    <span class="tag">newly sober</span>
+    <span class="tag">new dad</span>
+    <span class="tag">lost my mom</span>
+    <span class="tag">going through divorce</span>
+    <span class="tag">cancer survivor</span>
+    <span class="tag">first-gen student</span>
+    <span class="tag">new immigrant</span>
+    <span class="tag">empty nester</span>
+    <span class="tag">came out</span>
+  </div>
+</section>
+
+<!-- Problem -->
+<section class="section problem">
+  <h2>Some things only make sense to someone who's been there</h2>
+  <p>A promotion can feel lonely. A diagnosis can feel isolating. A major life change can leave you surrounded by people who care but don't understand. You need someone who actually knows.</p>
+</section>
+
+<!-- How It Works -->
+<section class="section how">
+  <h2>How SameSky works</h2>
+  <div class="demo-section">
+    <div>
+      <div class="steps" style="grid-template-columns:1fr;">
+        <div class="step" style="text-align:left;">
+          <div class="step-num">1</div>
+          <h3>Share what you're going through</h3>
+          <p>Tell us your situation — a life event, a transition, a milestone. No judgment, just context.</p>
+        </div>
+        <div class="step" style="text-align:left;">
+          <div class="step-num">2</div>
+          <h3>We find your people</h3>
+          <p>SameSky matches you with others in the same chapter of life. Not by demographics — by experience.</p>
+        </div>
+        <div class="step" style="text-align:left;">
+          <div class="step-num">3</div>
+          <h3>Connect and grow</h3>
+          <p>Join small, moderated groups or 1-on-1 conversations. Share, listen, and feel understood.</p>
+        </div>
+      </div>
+    </div>
+    <div class="demo-anim">
+      <div class="demo-frame">
+        <iframe src="{% static 'samesky-ads/ad5-two-texts.html' %}" loading="lazy" title="SameSky two texts demo"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section features">
+  <h2>A different kind of social</h2>
+  <div class="demo-section flip">
+    <div>
+      <div class="feature-grid" style="grid-template-columns:1fr;">
+        <div class="feature-card">
+          <div class="feature-icon">&#10024;</div>
+          <h3>Experience Matching</h3>
+          <p>Matched by what you're going through, not who you follow. Real connection starts with shared understanding.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#127760;</div>
+          <h3>Small Constellations</h3>
+          <p>Groups of 5-8 people going through the same thing. Intimate enough to be real, diverse enough to learn.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128737;</div>
+          <h3>Moderated Spaces</h3>
+          <p>Every group has trained facilitators. Safe, supportive, and structured around growth — not drama.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128156;</div>
+          <h3>Anonymous by Default</h3>
+          <p>Share as much or as little as you want. Use your name or don't. Your identity is yours to reveal.</p>
+        </div>
+      </div>
+    </div>
+    <div class="demo-anim">
+      <div class="demo-frame">
+        <iframe src="{% static 'samesky-ads/ad4-demo.html' %}" loading="lazy" title="SameSky app demo"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof -->
+<section class="section social-proof">
+  <h2>Someone gets it</h2>
+  <div class="testimonials">
+    <div class="testimonial">
+      <p class="quote">"After my divorce, everyone said 'you'll be fine.' My SameSky group said 'I know exactly how that feels.' Night and day."</p>
+      <div class="author">— Anonymous, going through divorce</div>
+    </div>
+    <div class="testimonial">
+      <p class="quote">"I got promoted and felt guilty about it. My friends couldn't relate. My constellation could. It changed everything."</p>
+      <div class="author">— Anonymous, recently promoted</div>
+    </div>
+    <div class="testimonial">
+      <p class="quote">"Being a new immigrant is lonely in ways I couldn't explain. Here, I don't have to explain. They already know."</p>
+      <div class="author">— Anonymous, new immigrant</div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section pricing">
+  <h2>Someone gets what you're going through</h2>
+  <div class="price-card">
+    <div class="plan">Constellation</div>
+    <div class="amount">$9</div>
+    <div class="period">per month</div>
+    <ul>
+      <li>Unlimited group matching</li>
+      <li>1-on-1 conversations</li>
+      <li>Moderated constellation groups</li>
+      <li>New matches as your life changes</li>
+      <li>Anonymous participation</li>
+    </ul>
+    <button class="btn" onclick="trackConversion('samesky','pricing')">Get SameSky — $9/mo</button>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq">
+  <h2>Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is SameSky therapy?</div>
+      <div class="faq-a">No. SameSky is peer support — connecting you with people who share your experience. It's a complement to therapy, not a replacement. If you're in crisis, we'll connect you with professional resources.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How are matches made?</div>
+      <div class="faq-a">We match based on the life experience you describe, not demographics. Our matching considers the specifics of your situation, where you are in the journey, and what kind of support you're looking for.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I stay anonymous?</div>
+      <div class="faq-a">Absolutely. You can use a pseudonym, share only what you're comfortable with, and reveal your identity on your own terms. Many members stay anonymous indefinitely.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What if my situation changes?</div>
+      <div class="faq-a">Life evolves, and so does SameSky. Update your profile anytime and we'll find you new constellations that match where you are now.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How are groups moderated?</div>
+      <div class="faq-a">Every constellation has a trained facilitator who ensures the space stays supportive, inclusive, and on-topic. We have zero tolerance for harassment or judgment.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand">SameSky</div>
+  <p>&copy; 2026 SameSky. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<script>
+// Simple star field
+(function() {
+  var el = document.getElementById('stars');
+  for (var i = 0; i < 80; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    s.style.width = s.style.height = (Math.random() * 2 + 1) + 'px';
+    el.appendChild(s);
+  }
+})();
+</script>
+{% endblock %}

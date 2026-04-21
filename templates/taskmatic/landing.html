@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Taskmatic — Stop writing tickets. Just say it.{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'taskmatic/style.css' %}">{% endblock %}
+
+{% block body %}
+<nav class="nav">
+  <div class="nav-brand"><img src="{% static 'taskmatic/images/taskmatic-wordmark-white.svg' %}" alt="Taskmatic" height="24"></div>
+  <button class="nav-cta" onclick="trackConversion('taskmatic','nav')">Add to Slack — Free</button>
+</nav>
+
+<!-- Hero -->
+<section class="section hero">
+  <div class="kicker">Lives inside Slack</div>
+  <h1 class="typing-headline" id="headline"><span class="hl-white"></span><br><span class="hl-accent"></span><span class="hl-cursor"></span></h1>
+  <p class="tagline">Turn any Slack message into a tracked task. Paste a design and get specs auto-generated. Taskmatic brings project management where your team already works.</p>
+  <button class="btn" onclick="trackConversion('taskmatic','hero')">Add to Slack — It's Free</button>
+
+  <div class="slack-mock">
+    <div class="slack-msg">
+      <div class="avatar">M</div>
+      <div>
+        <div class="msg-name">Mark <span class="time">2:34 PM</span></div>
+        <div class="msg-text">@Taskmatic open a P1 for the leaderboard sort bug — it's showing wrong order for users with tied scores</div>
+      </div>
+    </div>
+    <div class="slack-msg">
+      <div class="avatar bot">T</div>
+      <div>
+        <div class="msg-name">Taskmatic <span class="time">2:34 PM</span></div>
+        <div class="task-card">
+          <div class="task-title">Fix leaderboard sort for tied scores <span class="task-badge">P1</span></div>
+          <div class="task-meta">Assigned to: @mark &bull; Sprint: Current &bull; Created from Slack</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem -->
+<section class="section problem">
+  <h2>Context switching kills productivity</h2>
+  <p>Your team talks in Slack but tracks work in Jira, Linear, Asana, or Notion. Every task requires leaving the conversation, switching tabs, filling forms, and losing context. It doesn't have to be this way.</p>
+</section>
+
+<!-- How It Works -->
+<section class="section how">
+  <h2>How Taskmatic works</h2>
+  <div class="demo-section">
+    <div>
+      <div class="steps" style="grid-template-columns:1fr;">
+        <div class="step" style="text-align:left;">
+          <div class="step-num">1</div>
+          <h3>Just ask</h3>
+          <p>Mention @Taskmatic in any Slack message and describe what needs to happen. Natural language, no forms.</p>
+        </div>
+        <div class="step" style="text-align:left;">
+          <div class="step-num">2</div>
+          <h3>Auto-structured</h3>
+          <p>Taskmatic creates a fully structured task with title, priority, assignee, and details — inferred from your message.</p>
+        </div>
+        <div class="step" style="text-align:left;">
+          <div class="step-num">3</div>
+          <h3>Track in Slack</h3>
+          <p>Update status, add comments, and close tasks without ever leaving Slack. Your project board lives where you do.</p>
+        </div>
+      </div>
+    </div>
+    <div class="demo-anim">
+      <div class="demo-frame">
+        <iframe src="{% static 'taskmatic-ads/ad1-just-ask.html' %}" loading="lazy" title="Taskmatic task creation demo"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section features">
+  <h2>Built for how teams actually work</h2>
+  <div class="demo-section flip">
+    <div>
+      <div class="feature-grid" style="grid-template-columns:1fr;">
+        <div class="feature-card">
+          <div class="feature-icon">&#128172;</div>
+          <h3>Natural Language Tasks</h3>
+          <p>No forms, no dropdowns. Describe the task in plain English and Taskmatic structures it for you.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128444;</div>
+          <h3>Vision AI</h3>
+          <p>Paste a screenshot of a design, bug, or whiteboard. Taskmatic analyzes it and auto-generates the task spec.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128202;</div>
+          <h3>Sprint Dashboard</h3>
+          <p>See your team's progress at a glance with a Slack-native dashboard. No tab switching required.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128279;</div>
+          <h3>Integrations</h3>
+          <p>Sync with GitHub, Linear, and Jira. Taskmatic is the Slack layer on top of your existing tools.</p>
+        </div>
+      </div>
+    </div>
+    <div class="demo-anim">
+      <div class="demo-frame">
+        <iframe src="{% static 'taskmatic-ads/ad2-paste-the-design.html' %}" loading="lazy" title="Taskmatic Vision AI demo"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof -->
+<section class="section social-proof">
+  <h2>Teams ship faster with Taskmatic</h2>
+  <div class="testimonials">
+    <div class="testimonial">
+      <p class="quote">"We cut our ticket creation time by 80%. People just mention @Taskmatic in Slack and everything is tracked."</p>
+      <div class="author">— Jamie L., Engineering Manager</div>
+    </div>
+    <div class="testimonial">
+      <p class="quote">"The Vision AI feature is wild. Our designer pastes a mock, and Taskmatic creates the dev ticket with specs. No back-and-forth."</p>
+      <div class="author">— Kira P., Product Lead</div>
+    </div>
+    <div class="testimonial">
+      <p class="quote">"We tried every project management tool. The problem was never the tool — it was that nobody wanted to leave Slack. Taskmatic solved that."</p>
+      <div class="author">— Priya S., CTO at a 30-person startup</div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section pricing">
+  <h2>Simple, team-friendly pricing</h2>
+  <div class="price-card">
+    <div class="plan">Team</div>
+    <div class="amount">$8</div>
+    <div class="period">per user / month</div>
+    <ul>
+      <li>Unlimited tasks</li>
+      <li>Natural language &amp; Vision AI</li>
+      <li>Sprint dashboards</li>
+      <li>GitHub, Linear &amp; Jira sync</li>
+      <li>Unlimited integrations</li>
+    </ul>
+    <button class="btn" onclick="trackConversion('taskmatic','pricing')">Get Pro — $8/mo</button>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand"><img src="{% static 'taskmatic/images/taskmatic-wordmark-white.svg' %}" alt="Taskmatic" height="20"></div>
+  <p>&copy; 2026 Taskmatic. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+{% endblock %}
+
+{% block js %}
+<script>
+(function() {
+  var lines = [
+    { white: 'Better than asking Mark ', accent: 'what Mark is up to.' },
+    { white: 'Your Slack just got ', accent: 'promoted to manager.' },
+    { white: 'Your standup, done for you. ', accent: 'Please stay seated.' },
+  ];
+  var whiteEl = document.querySelector('.hl-white');
+  var accentEl = document.querySelector('.hl-accent');
+  var cursor = document.querySelector('.hl-cursor');
+  var idx = 0;
+  var speed = 45;
+  var pauseBetween = 2000;
+  var deleteSpeed = 25;
+
+  function typeText(el, text, cb) {
+    var i = 0;
+    (function tick() {
+      if (i <= text.length) {
+        el.textContent = text.slice(0, i);
+        i++;
+        setTimeout(tick, speed);
+      } else if (cb) cb();
+    })();
+  }
+
+  function deleteAll(cb) {
+    var totalW = whiteEl.textContent.length;
+    var totalA = accentEl.textContent.length;
+    var total = totalW + totalA;
+    var removed = 0;
+    (function tick() {
+      if (removed < total) {
+        if (accentEl.textContent.length > 0) {
+          accentEl.textContent = accentEl.textContent.slice(0, -1);
+        } else {
+          whiteEl.textContent = whiteEl.textContent.slice(0, -1);
+        }
+        removed++;
+        setTimeout(tick, deleteSpeed);
+      } else if (cb) cb();
+    })();
+  }
+
+  function showLine() {
+    var line = lines[idx];
+    typeText(whiteEl, line.white, function() {
+      typeText(accentEl, line.accent, function() {
+        setTimeout(function() {
+          deleteAll(function() {
+            idx = (idx + 1) % lines.length;
+            setTimeout(showLine, 300);
+          });
+        }, pauseBetween);
+      });
+    });
+  }
+
+  showLine();
+})();
+</script>
+{% endblock %}

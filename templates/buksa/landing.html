@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Buksa — The book in you, unlocked{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'buksa/style.css' %}">{% endblock %}
+
+{% block body %}
+<nav class="nav">
+  <div class="nav-brand">Buksa</div>
+  <button class="nav-cta" onclick="trackConversion('buksa','nav')">Try Buksa Free</button>
+</nav>
+
+<!-- Hero -->
+<section class="section hero">
+  <h1>The book in you,<br>unlocked<span class="cursor"></span></h1>
+  <p class="tagline">AI-assisted writing that feels like you. Buksa suggests the next line, you decide whether to keep it. Your voice, amplified.</p>
+  <button class="btn" onclick="trackConversion('buksa','hero')">Sign Up Free</button>
+</section>
+
+<!-- Problem -->
+<section class="section problem">
+  <h2>The hardest part of writing isn't the idea</h2>
+  <p>It's sitting with the blank page. The blinking cursor. You know what you want to say, but the words won't come. You need a writing partner that helps without taking over.</p>
+</section>
+
+<!-- How It Works -->
+<section class="section how">
+  <h2>How Buksa works</h2>
+  <div class="demo-section">
+    <div>
+      <div class="steps" style="grid-template-columns:1fr;">
+        <div class="step" style="text-align:left;">
+          <div class="step-num">1</div>
+          <h3>Write your first line</h3>
+          <p>Start anywhere. A sentence, a scene, a feeling. Buksa picks up your voice from the very first words.</p>
+        </div>
+        <div class="step" style="text-align:left;">
+          <div class="step-num">2</div>
+          <h3>See gentle suggestions</h3>
+          <p>Ghost text appears ahead of your cursor. Accept it, edit it, or ignore it entirely. You're always in control.</p>
+        </div>
+        <div class="step" style="text-align:left;">
+          <div class="step-num">3</div>
+          <h3>Build your streak</h3>
+          <p>Track chapters, word counts, and daily writing streaks. Buksa keeps you accountable without pressure.</p>
+        </div>
+      </div>
+    </div>
+    <div class="demo-anim">
+      <div class="demo-frame">
+        <iframe src="{% static 'buksa-ads/ad1-writers-block.html' %}" loading="lazy" title="Buksa writing demo"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section features">
+  <h2>Everything a writer needs</h2>
+  <div class="demo-section flip">
+    <div>
+      <div class="feature-grid" style="grid-template-columns:1fr;">
+        <div class="feature-card">
+          <div class="feature-icon">&#9998;</div>
+          <h3>Voice Matching</h3>
+          <p>Buksa learns your tone and style. Suggestions get better the more you write, never generic or robotic.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128214;</div>
+          <h3>Chapter Management</h3>
+          <p>Organize your manuscript with drag-and-drop chapters, outlines, and character notes all in one place.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128293;</div>
+          <h3>Writing Streaks</h3>
+          <p>Set daily word goals and watch your streak grow. Small, consistent progress builds books.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128274;</div>
+          <h3>Private by Default</h3>
+          <p>Your manuscript is yours. End-to-end encrypted, never used for training, exportable anytime.</p>
+        </div>
+      </div>
+    </div>
+    <div class="demo-anim">
+      <div class="demo-frame">
+        <iframe src="{% static 'buksa-ads/ad3-draft-to-readers.html' %}" loading="lazy" title="Buksa growth demo"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof -->
+<section class="section social-proof">
+  <h2>Writers love Buksa</h2>
+  <div class="demo-section">
+    <div class="demo-anim">
+      <div class="demo-frame">
+        <iframe src="{% static 'buksa-ads/ad8-first-follower.html' %}" loading="lazy" title="Buksa social proof demo"></iframe>
+      </div>
+    </div>
+    <div>
+      <div class="testimonials" style="grid-template-columns:1fr;">
+        <div class="testimonial">
+          <p>"I finished my first draft in 6 weeks. Before Buksa, I'd been stuck on chapter 3 for two years."</p>
+          <div class="author">— Sarah M., debut novelist</div>
+        </div>
+        <div class="testimonial">
+          <p>"It's not like other AI writing tools. Buksa doesn't write for you — it writes with you. Huge difference."</p>
+          <div class="author">— James K., journalist</div>
+        </div>
+        <div class="testimonial">
+          <p>"The ghost text feature is magic. Half the time I accept it, half the time it sparks a better idea of my own."</p>
+          <div class="author">— Priya R., MFA student</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section pricing">
+  <h2>Simple pricing</h2>
+  <div class="price-card">
+    <div class="plan">Writer's Plan</div>
+    <div class="amount">$12</div>
+    <div class="period">per month</div>
+    <ul>
+      <li>Unlimited AI suggestions</li>
+      <li>Unlimited manuscripts</li>
+      <li>Writing streaks &amp; analytics</li>
+      <li>Export to PDF, EPUB, DOCX</li>
+      <li>End-to-end encryption</li>
+    </ul>
+    <button class="btn" onclick="trackConversion('buksa','pricing')">Get Buksa — $12/mo</button>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq">
+  <h2>Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Does Buksa write my book for me?</div>
+      <div class="faq-a">No. Buksa offers gentle suggestions that match your voice — ghost text you can accept, edit, or ignore. You're always the author.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is my writing used to train AI models?</div>
+      <div class="faq-a">Never. Your manuscripts are end-to-end encrypted and belong entirely to you. We don't use your content for training or any other purpose.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I export my work?</div>
+      <div class="faq-a">Absolutely. Export to PDF, EPUB, DOCX, or plain text at any time. Your book, your format, no lock-in.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How do I get started?</div>
+      <div class="faq-a">Sign up and get instant access to every feature. Start writing your first chapter in under a minute.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What genres does Buksa work for?</div>
+      <div class="faq-a">All of them. Fiction, non-fiction, memoir, poetry — Buksa adapts to your style and genre as you write.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand">Buksa</div>
+  <p>&copy; 2026 Buksa. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+{% endblock %}
+

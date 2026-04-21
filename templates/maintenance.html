@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Under Maintenance{% endblock %}
+
+{% block css %}
+<style>
+  :root {
+    --bg: #fafafa;
+    --text: #222;
+    --accent: #888;
+  }
+  {% if product == "buksa" %}
+  :root { --bg: #f4ecd8; --text: #0a0a0f; --accent: #e85d24; }
+  {% elif product == "hotgoss" %}
+  :root { --bg: #fdfaf3; --text: #14110e; --accent: #ff5f52; }
+  {% elif product == "samesky" %}
+  :root { --bg: #05060d; --text: #ffffff; --accent: #a5b4fc; }
+  {% elif product == "taskmatic" %}
+  :root { --bg: #0a0c13; --text: #f4f6fa; --accent: #e69c3c; }
+  {% endif %}
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 2rem;
+  }
+  .wrap { max-width: 480px; }
+  h1 {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    {% if product == "buksa" %}
+    font-family: 'Didot', 'Bodoni 72', Georgia, serif;
+    font-style: italic;
+    {% endif %}
+  }
+  p {
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    line-height: 1.6;
+    opacity: 0.75;
+    margin-bottom: 1.5rem;
+  }
+  .dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 1.4s ease-in-out infinite;
+    margin: 0 3px;
+  }
+  .dot:nth-child(2) { animation-delay: 0.15s; }
+  .dot:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="wrap">
+  <h1>We're getting ready</h1>
+  <p>Thanks for your interest! We're putting the finishing touches on everything. Check back soon.</p>
+  <div>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</div>
+{% endblock %}

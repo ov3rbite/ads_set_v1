@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}HotGoss — Your friend in chaos mode{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'hotgoss/style.css' %}">{% endblock %}
+
+{% block body %}
+<nav class="nav">
+  <div class="nav-brand">Hot<span>Goss</span></div>
+  <button class="nav-cta" onclick="trackConversion('hotgoss','nav')">Download Free</button>
+</nav>
+
+<!-- Hero -->
+<section class="section hero">
+  <h1>A vault with a <em>sense of humor</em></h1>
+  <p class="tagline">Some convos only happen after midnight. HotGoss is the private space for the things you can't say anywhere else. No screenshots. No repeats. Ever.</p>
+  <button class="btn" onclick="trackConversion('hotgoss','hero')">Download HotGoss — It's Free</button>
+
+  <div class="chat-preview">
+    <div class="bubble bubble-l">i have so much to tell u</div>
+    <div class="bubble bubble-r">wait start at the beginning. what was she wearing</div>
+    <div class="bubble bubble-l">ok so you know how she said she was "working late"...</div>
+    <div class="lock-badge">&#128274; locked &bull; only you two can see this</div>
+  </div>
+</section>
+
+<!-- Problem -->
+<section class="section problem">
+  <h2>Group chats aren't safe</h2>
+  <p>You want to vent, debrief, or say the thing. But screenshots get shared, messages get forwarded, and nothing ever really disappears. You need a space that's actually private.</p>
+</section>
+
+<!-- How It Works -->
+<section class="section how">
+  <h2>How HotGoss works</h2>
+  <div class="demo-section">
+    <div>
+      <div class="steps" style="grid-template-columns:1fr;">
+        <div class="step" style="text-align:left;">
+          <div class="step-num">1</div>
+          <h3>Invite your person</h3>
+          <p>Add your closest friend, your sister, your ride-or-die. One person you trust with the unfiltered version.</p>
+        </div>
+        <div class="step" style="text-align:left;">
+          <div class="step-num">2</div>
+          <h3>Say the thing</h3>
+          <p>Vent, gossip, debrief, process. Messages are encrypted and screenshot-proof. What's said here stays here.</p>
+        </div>
+        <div class="step" style="text-align:left;">
+          <div class="step-num">3</div>
+          <h3>It vanishes</h3>
+          <p>Set messages to auto-delete after 24 hours, a week, or never. You choose the expiry on every conversation.</p>
+        </div>
+      </div>
+    </div>
+    <div class="demo-anim">
+      <div class="demo-frame">
+        <iframe src="{% static 'hotgoss-ads/ad1-2am-debrief.html' %}" loading="lazy" title="HotGoss chat demo"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section features">
+  <h2>Built for real talk</h2>
+  <div class="demo-section flip">
+    <div>
+      <div class="feature-grid" style="grid-template-columns:1fr;">
+        <div class="feature-card">
+          <div class="feature-icon">&#128274;</div>
+          <h3>Screenshot Blocking</h3>
+          <p>HotGoss blocks screenshots and screen recording. If someone tries, you get notified instantly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128163;</div>
+          <h3>Auto-Delete</h3>
+          <p>Messages disappear on your schedule. 24 hours, 7 days, or custom. Or keep them forever — your call.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#129313;</div>
+          <h3>Reactions &amp; Vibes</h3>
+          <p>React with custom stickers, voice notes, and chaos-mode emojis. Because debriefs should be fun.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128064;</div>
+          <h3>No Read Receipts</h3>
+          <p>Read on your own time. No blue checks, no typing indicators, no pressure. Just conversation.</p>
+        </div>
+      </div>
+    </div>
+    <div class="demo-anim">
+      <div class="demo-frame">
+        <iframe src="{% static 'hotgoss-ads/ad5-receipt-mode.html' %}" loading="lazy" title="HotGoss privacy demo"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof -->
+<section class="section social-proof">
+  <h2>People are talking (privately)</h2>
+  <div class="testimonials">
+    <div class="testimonial">
+      <p class="quote">"Finally, somewhere I can actually say what I'm thinking without worrying it'll end up in a group chat."</p>
+      <div class="author">— Mia, 24</div>
+    </div>
+    <div class="testimonial">
+      <p class="quote">"My best friend and I use it every night. It's like our own little world. No one else is invited."</p>
+      <div class="author">— Jess, 28</div>
+    </div>
+    <div class="testimonial">
+      <p class="quote">"The auto-delete feature is *chef's kiss*. I can say absolutely anything and it just... goes away."</p>
+      <div class="author">— Tay, 26</div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section pricing">
+  <h2>One plan. No compromises.</h2>
+  <div class="price-card">
+    <div class="plan">Chaos Mode</div>
+    <div class="amount">$4.99</div>
+    <div class="period">per month</div>
+    <ul>
+      <li>Unlimited private conversations</li>
+      <li>Screenshot blocking</li>
+      <li>Auto-delete messages</li>
+      <li>Custom reactions</li>
+      <li>End-to-end encryption</li>
+    </ul>
+    <button class="btn" onclick="trackConversion('hotgoss','pricing')">Get Chaos Mode — $5/mo</button>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq">
+  <h2>FAQ</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can people really not screenshot?</div>
+      <div class="faq-a">HotGoss uses OS-level screen capture protection. On iOS and Android, screenshots and recordings are blocked. If someone tries, you're notified.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What does it cost?</div>
+      <div class="faq-a">HotGoss is $4.99/month for the full experience — screenshot blocking, auto-delete, custom reactions, and end-to-end encryption. No hidden tiers, no upsells.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How is this different from Signal?</div>
+      <div class="faq-a">Signal is built for security. HotGoss is built for vibes. We have the same encryption, but with screenshot blocking, custom reactions, and an interface designed for actual fun.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I use it in group chats?</div>
+      <div class="faq-a">Not yet — HotGoss is designed for 1-on-1 conversations right now. Group chats are coming soon.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What happens when messages auto-delete?</div>
+      <div class="faq-a">They're gone. Truly gone. Deleted from our servers and both devices. We can't recover them even if we wanted to.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand">Hot<span>Goss</span></div>
+  <p>&copy; 2026 HotGoss. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+{% endblock %}

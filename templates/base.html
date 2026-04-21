@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{% endblock %}</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'shared/reset.css' %}">
+{% block css %}{% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+
+<script>
+function getCookie(name) {
+  const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return v ? v.pop() : '';
+}
+
+function trackConversion(product, buttonLabel) {
+  fetch('/' + product + '/convert/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCookie('csrftoken'),
+    },
+    body: JSON.stringify({ button_label: buttonLabel }),
+  })
+  .then(function() {
+    window.location.href = '/' + product + '/maintenance/';
+  })
+  .catch(function() {
+    window.location.href = '/' + product + '/maintenance/';
+  });
+}
+</script>
+{% block js %}{% endblock %}
+<script>
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('in-view');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.demo-anim').forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>
